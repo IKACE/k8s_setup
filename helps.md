@@ -32,5 +32,6 @@ kubeadm join 10.0.0.1:6443 --token abcdef.0123456789abcdef \
 
 # worker node setup
 1. run worker_setup.sh
-2. use join command outputted from master init, example: kubeadm join 10.0.0.1:6443 --token abcdef.0123456789abcdef \
+2. sudo su -
+3. use join command outputted from master init, example: kubeadm join 10.0.0.1:6443 --token abcdef.0123456789abcdef \
         --discovery-token-ca-cert-hash sha256:79b0ee3d035eb825274aa716a1e15cbfe486dab87da431b1781a7e1677213308 
