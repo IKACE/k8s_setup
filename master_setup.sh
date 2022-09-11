@@ -73,6 +73,9 @@ if [ $retVal -ne 0 ]; then
     exit $retVal
 fi
 
+echo "Adding user to docker user group..."
+sudo usermod -a -G docker $USER
+
 echo "Installing k8s dependencies..."
 sudo apt-get update
 sudo apt-get install -y apt-transport-https ca-certificates curl
