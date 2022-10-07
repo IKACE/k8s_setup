@@ -145,6 +145,6 @@ kubectl get po -n kube-system
 read -p "Press Enter to continue"
 
 echo "Installing Calico network plugin..."
-kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+kubectl apply -f calico.yaml
 
 echo " === k8s master node setup completes! ==="
