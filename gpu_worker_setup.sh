@@ -99,17 +99,17 @@ sudo systemctl restart kubelet
 
 # === Install NVIDIA Device Plugin ===
 
-# First, install Helm
-curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 \
-   && chmod 700 get_helm.sh \
-   && ./get_helm.sh
+# # First, install Helm
+# curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 \
+#    && chmod 700 get_helm.sh \
+#    && ./get_helm.sh
 
-# Add the nvidia-device-plugin helm repository
-helm repo add nvdp https://nvidia.github.io/k8s-device-plugin \
-   && helm repo update
+# # Add the nvidia-device-plugin helm repository
+# helm repo add nvdp https://nvidia.github.io/k8s-device-plugin \
+#    && helm repo update
 
-# Deploy the device plugin
-helm install --generate-name nvdp/nvidia-device-plugin -n kube-system
+# # Deploy the device plugin
+# helm install --generate-name nvdp/nvidia-device-plugin -n kube-system
 
 
 echo "Please check plugin status by running 'kubectl get pods -A' on master node"
