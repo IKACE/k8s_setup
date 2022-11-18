@@ -111,15 +111,8 @@ helm repo add nvdp https://nvidia.github.io/k8s-device-plugin \
 # Deploy the device plugin
 helm install --generate-name nvdp/nvidia-device-plugin -n kube-system
 
-kubectl get pods -A
-echo "You should see a nvidia-device-plugin pod by this point"
+
+echo "Please check plugin status by running 'kubectl get pods -A' on master node"
 read -p "Press Enter to continue"
 
-
-#
-# docker run --security-opt=no-new-privileges --cap-drop=ALL --restart always --network=none -it -v /var/lib/kubelet/device-plugins:/var/lib/kubelet/device-plugins nvidia/k8s-device-plugin:v0.9.0
-
-# kubectl taint nodes h1 nvidia.com/gpu=value:NoSchedule
-kubectl apply -f gpu_pod.yaml
-echo "Running gpu-operator-test pod as sanity check, please check the log manually"
-echo "=== GPU Master Setup Complete! ==="
+echo "=== GPU Worker Setup Complete! ==="
