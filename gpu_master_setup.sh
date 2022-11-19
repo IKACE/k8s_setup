@@ -105,11 +105,11 @@ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scr
    && ./get_helm.sh
 
 # Add the nvidia-device-plugin helm repository
-helm repo add nvdp https://nvidia.github.io/k8s-device-plugin \
+sudo helm repo add nvdp https://nvidia.github.io/k8s-device-plugin \
    && helm repo update
 
 # Deploy the device plugin
-helm install --generate-name nvdp/nvidia-device-plugin -n kube-system
+sudo helm install --generate-name nvdp/nvidia-device-plugin -n kube-system
 
 kubectl get pods -A
 echo "You should see a nvidia-device-plugin pod by this point"
