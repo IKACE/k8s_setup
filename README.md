@@ -46,7 +46,7 @@ Add the following into the config
 version = 2
 
 # persistent data location
-root = "/users/yilegu/containerd" #your_free_path_here
+root = "NEW_CONTAINERD_ROOT_DIR" #your_free_path_here
 </pre>
 
 Reload the services
@@ -169,4 +169,53 @@ nvidia.com/gpu: 8
 Allocatable:
 nvidia.com/gpu: 8
 ...
+</pre>
+
+### Tips
+#### Uninstall time-slicing feature
+If due to any reason you find out Kubernetes is in an inconsistent state after setting up GPU time-slicing feature, follow these steps to rollback the changes
+
+Remove GPU operator
+
+<pre>
+helm uninstall gpu-operator -n gpu-operator
+</pre>
+
+Restore the original containerd config to the point before time-slicing feature is installed
+
+<pre>
+version = 2
+
+# persistent data location
+root = "NEW_CONTAINERD_ROOT_DIR"
+ignore_image_defined_volumes = false
+[plugins."io.containerd.grpc.v1.cri".containerd]
+        snapshotter = "overlayfs"
+        default_runtime_name = "nvidia"
+        no_pivot = false
+        disable_snapshot_annotations = true
+        discard_unpacked_layers = false
+        privileged_without_host_devices = false
+        base_runtime_spec = ""
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+        SystemdCgroup = true
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia]
+        privileged_without_host_devices = false
+        runtime_engine = ""
+        runtime_root = ""
+        runtime_type = "io.containerd.runc.v1"
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia.options]
+        BinaryName = "/usr/bin/nvidia-container-runtime"
+        SystemdCgroup = true
+[plugins."io.containerd.grpc.v1.cri".cni]
+        bin_dir = "/opt/cni/bin"
+        conf_dir = "/etc/cni/net.d"
+</pre> 
+
+Restart services
+<pre>
+sudo systemctl stop kubelet
+sudo systemctl daemon-reload
+sudo systemctl restart containerd
+sudo systemctl restart kubelet
 </pre>
